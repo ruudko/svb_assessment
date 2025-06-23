@@ -8,6 +8,9 @@ import net.koedooder.svb.assessment.model.Customer;
 import net.koedooder.svb.assessment.model.LeaseContract;
 import net.koedooder.svb.assessment.repository.LeaseContractRepository;
 
+/**
+ * Manages lease contract details for the lease company
+ */
 @Service
 @AllArgsConstructor
 public class LeaseService {
@@ -24,6 +27,9 @@ public class LeaseService {
 		LeaseContract leaseContract = new LeaseContract();
 		leaseContract.setCustomer(customer);
 		leaseContract.setCar(car);
+		leaseContract.setKmPerYear(kmPerYear);
+		leaseContract.setDurationInMonths(durationInMonths);
+		leaseContract.setPercInterest(percInterest);
 		leaseContract.setLeaseRate(calcLeaseRate(kmPerYear, durationInMonths, percInterest, car.getNettPrice()));
         return LeaseContractRepository.save(leaseContract);
     }

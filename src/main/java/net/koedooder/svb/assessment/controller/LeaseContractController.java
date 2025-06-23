@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.koedooder.svb.assessment.exception.CarNotFoundException;
+import net.koedooder.svb.assessment.exception.CustomerNotFoundException;
 import net.koedooder.svb.assessment.exception.LeaseContractNotFoundException;
 import net.koedooder.svb.assessment.model.Car;
 import net.koedooder.svb.assessment.model.Customer;
@@ -41,12 +42,13 @@ public class LeaseContractController {
 	}
 	
 	@PutMapping("/{id}")
-    public ResponseEntity<LeaseContract> updateCar(@PathVariable long id, @RequestBody LeaseContract leaseContractDetails) {
+    public ResponseEntity<LeaseContract> updateLeaseContract(@PathVariable long id, @RequestBody LeaseContract leaseContractDetails) {
 		LeaseContract updateLeaseContract = repository.findById(id).orElseThrow(() -> new LeaseContractNotFoundException(id));
 
 		updateLeaseContract.setDurationInMonths(leaseContractDetails.getDurationInMonths());
 		updateLeaseContract.setKmPerYear(leaseContractDetails.getKmPerYear());
 		updateLeaseContract.setPercInterest(leaseContractDetails.getPercInterest());
+		
 		updateLeaseContract.setLeaseRate(leaseService.calcLeaseRate(
 				updateLeaseContract.getKmPerYear(), 
 				updateLeaseContract.getDurationInMonths(), 
@@ -64,10 +66,16 @@ public class LeaseContractController {
 			@RequestBody LeaseContract leaseContractDetails) {
 		
 		Car car = carRepository.findById(carId).orElseThrow(() -> new CarNotFoundException(carId));
-		Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CarNotFoundException(customerId));
+		Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
 		
 		leaseContractDetails.setCar(car);
 		leaseContractDetails.setCustomer(customer);
+		
+		leaseContractDetails.setLeaseRate(leaseService.calcLeaseRate(
+				leaseContractDetails.getKmPerYear(), 
+				leaseContractDetails.getDurationInMonths(), 
+				leaseContractDetails.getPercInterest(), 
+				leaseContractDetails.getCar().getNettPrice()));
 		
 		LeaseContract saveLeaseContract = repository.save(leaseContractDetails);
 		 

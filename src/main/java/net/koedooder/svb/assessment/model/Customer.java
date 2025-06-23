@@ -11,13 +11,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * The customer of the broker company
+ */
 @Entity
 @Table(name = "customers")
-@Data
-@NoArgsConstructor()
 public class Customer {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +31,8 @@ public class Customer {
 	private String email;
 	private String phonenumber;
 	
+	public Customer() {}
+	
 	public Customer(String name, String street, String streetNumber, String zipcode, String place, String email, String phonenumber) {
 		this.name = name;
 		this.street = street;
@@ -39,6 +40,78 @@ public class Customer {
 		this.zipcode = zipcode;
 		this.place = place;
 		this.email = email;
+		this.phonenumber = phonenumber;
+	}
+
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+
+	public List<LeaseContract> getLeaseContracts() {
+		return leaseContracts;
+	}
+
+	public void setLeaseContracts(List<LeaseContract> leaseContracts) {
+		this.leaseContracts = leaseContracts;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(String streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+
+	public void setPhonenumber(String phonenumber) {
 		this.phonenumber = phonenumber;
 	}
 }

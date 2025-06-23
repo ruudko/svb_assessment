@@ -19,6 +19,9 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+/**
+ * The token represents an authorized user
+ */
 @Service
 public class TokenProvider {
 
@@ -49,7 +52,8 @@ public class TokenProvider {
    public Authentication setAuthentication(String token) {
         Claims payload = parseClaimsFromToken(token);
         String username = payload.getSubject();
-        List<String> authorities = payload.get("authorities", ArrayList.class);
+        @SuppressWarnings("unchecked")
+		List<String> authorities = payload.get("authorities", ArrayList.class);
         List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream().map(SimpleGrantedAuthority::new).toList();
         return new UsernamePasswordAuthenticationToken(username, "", grantedAuthorities);
     }

@@ -14,6 +14,9 @@ import net.koedooder.svb.assessment.model.User;
 import net.koedooder.svb.assessment.repository.UserRepository;
 import net.koedooder.svb.assessment.security.TokenProvider;
 
+/**
+ * Manages user details for the rest application
+ */
 @Service
 @AllArgsConstructor
 public class UserService {
