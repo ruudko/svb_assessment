@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.koedooder.svb.assessment.exception.CustomerNotFoundException;
+import net.koedooder.svb.assessment.exception.CarNotFoundException;
 import net.koedooder.svb.assessment.model.Customer;
 import net.koedooder.svb.assessment.repository.CustomerRepository;
 
@@ -28,12 +28,12 @@ public class CustomerController {
 
 	@GetMapping("/{id}")
 	Customer one(@PathVariable Long id) {
-		return repository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+		return repository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
 	}
 	
 	@PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable long id, @RequestBody Customer customerDetails) {
-        Customer updateCustomer = repository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        Customer updateCustomer = repository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
 
         updateCustomer.setName(customerDetails.getName());
         updateCustomer.setEmail(customerDetails.getEmail());
